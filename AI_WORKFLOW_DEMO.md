@@ -52,6 +52,8 @@ Result:
 All checks passed!
 ```
 
+Ruff validation also passed in the GitHub Actions workflow.
+
 ## 4. Guardrail Verification
 
 ### Guardrail 1: Forbidden sleep detection
@@ -96,7 +98,7 @@ The test suite was successfully executed manually in PowerShell:
 3 passed
 ```
 
-The shell hook itself has not been independently verified in a Bash environment.
+The shell script is included in the repository, but its execution has not been independently verified in a Bash environment.
 
 ## 5. AI Workflow Command Examples
 
@@ -106,9 +108,21 @@ The repository provides the following custom command examples:
 - `/review-qa tests/api/test_jsonplaceholder_posts.py`
 - `/analyze-fail tests/api/test_jsonplaceholder_posts.py`
 
-These commands are intended to support test generation, QA review and failure analysis.
+These commands are designed to support test generation, QA review and failure analysis.
 
-## 6. Verification Summary
+## 6. CI Verification
+
+GitHub Actions workflow: `QA Tests`
+
+The workflow executes:
+
+- API tests using pytest
+- Static analysis using Ruff
+- Upload of Allure raw test results
+
+The workflow was successfully executed on GitHub Actions. The API test and lint steps completed successfully.
+
+## 7. Verification Summary
 
 | Component | Status |
 |---|---|
@@ -117,11 +131,47 @@ These commands are intended to support test generation, QA review and failure an
 | Skills | Implemented |
 | Custom commands | Implemented |
 | Subagents | Implemented |
-| GitHub Actions CI configuration | Implemented |
+| GitHub Actions CI configuration | Implemented and verified |
 | Secret detection hook | Verified manually |
 | Forbidden sleep detection hook | Verified manually |
-| Test verification script | Implemented |
-| Ruff | Passed |
-| API tests | 3 passed |
+| Test verification script | Implemented; Bash execution not independently verified |
+| Ruff local validation | Passed |
+| Ruff CI validation | Passed |
+| API tests local execution | 3 passed |
+| API tests CI execution | Passed |
 
 Local verification was performed on Windows using Python 3.12.6 and pytest.
+
+---
+
+# Install Project 3 Scaffold into TechStore UI Tests
+
+1. Extract this scaffold into the root of the existing `techstore-ui-tests` repository, merging folders and keeping existing files.
+2. Add `requests` and `ruff` to `requirements.txt` if missing.
+3. Install dependencies:
+
+   ```bash
+   python -m pip install requests ruff
+   ```
+
+4. Run API tests:
+
+   ```bash
+   pytest tests/api -v --alluredir=reports/allure-results
+   ```
+
+5. Run lint:
+
+   ```bash
+   ruff check .claude/hooks tests/api
+   ```
+
+6. Commit and push. GitHub Actions should run when pushed.
+
+7. The `.claude/settings.json` hook definitions are intended for Claude Code. Hook event handling may need adjustment to the installed Claude Code version and tool payload format. Validate the hooks in Claude Code before claiming that the integration is fully active. The standalone guard scripts can be executed directly for demonstration purposes.
+
+## 8. MCP
+
+No MCP server is configured in this scaffold.
+
+The project meets the two-item minimum in requirement 2.5 through the implementation of two role-defined agents and GitHub Actions CI. No unverified MCP server configuration was added.
