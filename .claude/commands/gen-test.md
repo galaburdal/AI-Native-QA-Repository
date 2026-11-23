@@ -1,0 +1,2 @@
+Generate a test for: $ARGUMENTS
+First identify whether the request is UI, API, or BDD. Follow AGENTS.md and scoped rules. For UI use POM and explicit waits; for API use requests, timeouts, isolated data and status/response assertions; for BDD write concise Gherkin. Include parameterization when multiple data cases are applicable. State files to create/edit and run relevant tests. Do not invent execution results.
